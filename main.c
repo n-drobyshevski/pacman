@@ -9,19 +9,32 @@
 struct Game {
   SDL_Window *window;
   SDL_Renderer *renderer;
+  SDL_Texture *sprite;
+  int sprite_x;
+  int sprite_y; 
+  int sprite_w;
+  int sprite_h;
 };
 
 typedef struct Game TGame;
 
 void game_init(TGame *game);
 void game_clean(TGame *game);
+void media_init(TGame *game);
+
 
 int main(int argc, char *argv[]) {
   TGame game = {
       .window = NULL,
       .renderer = NULL,
+      .sprite = NULL,
+      .sprite_x = 0,
+      .sprite_y = 0, 
+      .sprite_w = 16,
+      .sprite_h = 16,
   };
   game_init(&game);
+  media_init(&game);
 
   bool quit = true;
   while (quit) {
@@ -47,6 +60,8 @@ int main(int argc, char *argv[]) {
 
     clearRenderer(game.renderer);
 
+    renderTexture(game.sprite, game.renderer, game.sprite_x, game.sprite_y,game.sprite_w, game.sprite_h);
+    
     SDL_RenderPresent(game.renderer);
 
     SDL_Delay(16);
@@ -64,3 +79,7 @@ void game_clean(TGame *game) {
   QuitSDL(game->window, game->renderer);
   exit(0);
 };
+
+void media_init(TGame *game){
+  game->sprite = loadTexture("src/pakuman_0.bmp", game->renderer);
+}
