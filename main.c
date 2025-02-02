@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
       .renderer = NULL,
       .wall = NULL,
       .gum = NULL,
-      .pacman = {0, 0, NULL},
+      .pacman = {0, 0, 2, 'd', NULL},
       .map = {0},
   };
   game_init(&game);
@@ -37,6 +37,18 @@ int main(int argc, char *argv[]) {
         case SDLK_ESCAPE: //!CHANGE sdlk
           quit = true; //!change
           break;
+        case SDLK_UP:
+          game.pacman.dir = 'w';
+          break;
+        case SDLK_DOWN:
+          game.pacman.dir = 's';
+          break;
+        case SDLK_LEFT:
+          game.pacman.dir = 'd';
+          break;
+        case SDLK_RIGHT:
+          game.pacman.dir = 'a';
+          break;
         default:
           break;
         };
@@ -47,12 +59,10 @@ int main(int argc, char *argv[]) {
 
     clearRenderer(game.renderer);
 
+    movePacman(&game.pacman, game.map); 
 
     RenderMap(&game);
-
     renderPacman(&game.pacman, game.renderer);
-    renderTexture(game.sprite, game.renderer, game.sprite_x, game.sprite_y,
-                  game.sprite_w, game.sprite_h);
     SDL_RenderPresent(game.renderer);
 
     SDL_Delay(16);

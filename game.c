@@ -1,17 +1,27 @@
+#include "game.h"
 #include "gestionGraphique.h"
 #include "include/SDL2/SDL.h"
 #include "pacman.h"
 #include "settings.h"
 #include <stdbool.h>
 #include <stdlib.h>
-#include "game.h"
+#include <time.h>
+
 
 void game_init(TGame *game) {
   game->window = createWindow("Pacman", WINDOW_W, WINDOW_H);
   game->renderer = createRenderer(game->window);
-  game->pacman = initPacman( 9*TILE_SIZE, 8*TILE_SIZE,"src/pakuman/pakuman_0.bmp" ,game->renderer);
+
+
+  TCoords pacman_start = getCoords(9,8); //144;128
+  // printf("Pacman start coordinates: (%d, %d)\n", pacman_start.x, pacman_start.y);
+  game->pacman =
+      initPacman(pacman_start.x, pacman_start.y, game->pacman.vel,'d', game->renderer);
+
+
   media_init(game);
   map_init(game);
+  srand(time(NULL)); // Initialize the seed for the random number generator
 };
 
 void game_clean(TGame *game) {
@@ -56,6 +66,7 @@ void map_init(TGame *game) {
     }
   }
 };
+
 void RenderMap(TGame *game) {
   int i, j;
   int tile_x, tile_y;
@@ -77,6 +88,29 @@ void RenderMap(TGame *game) {
       }
     };
   };
+}
+
+int getTileType(int map[MAP_HEIGHT_MAX][MAP_WIDTH_MAX], int x, int y) {
+  int tile_x = x / TILE_SIZE;
+  int tile_y = y / TILE_SIZE;
+  if (tile_x < 0 || tile_x >= MAP_WIDTH_MAX || tile_y < 0 ||
+      tile_y >= MAP_HEIGHT_MAX) {
+    return -1; // Out of bounds
+  }
+  return map[tile_y][tile_x];
+}
+
+TCoords getTileCoords(int x, int y) {
+  TCoords coords;
+  coords.x = x / TILE_SIZE;
+  coords.y = y / TILE_SIZE;
+  return coords;
+}
+TCoords getCoords(int tileX, int tileY) {
+  TCoords coords;
+  coords.x = tileX * TILE_SIZE;
+  coords.y = tileY * TILE_SIZE;
+  return coords;
 }
 
 void start_menu(TGame *game) {
