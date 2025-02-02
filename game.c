@@ -9,20 +9,19 @@
 void game_init(TGame *game) {
   game->window = createWindow("Pacman", WINDOW_W, WINDOW_H);
   game->renderer = createRenderer(game->window);
+  game->pacman = initPacman( 9*TILE_SIZE, 8*TILE_SIZE,"src/pakuman/pakuman_0.bmp" ,game->renderer);
   media_init(game);
   map_init(game);
-  // initPacman(&game->pacman, 0, 0, game->renderer,
-  // "src/pakuman/pakuman_0.bmp");
 };
 
 void game_clean(TGame *game) {
   QuitSDL(game->window, game->renderer);
   exit(0);
 };
+
 void media_init(TGame *game) {
   game->sprite =
       loadTexture("src/pakuman/pakuman_0.bmp", game->renderer); //! change path
-
   game->wall = loadTexture("src/wall.bmp", game->renderer);
   game->gum = loadTexture("src/gum.bmp", game->renderer);
 }

@@ -22,7 +22,7 @@ struct Game {
   int sprite_h;
   int map[MAP_HEIGHT_MAX][MAP_WIDTH_MAX];
 
-  // TPacman pacman;
+  TPacman pacman;
 };
 
 typedef struct Game TGame;
