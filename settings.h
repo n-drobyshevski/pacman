@@ -14,6 +14,6 @@
 #define PACMAN_START_Y TILE_SIZE * 8-1
 
 
-#define AUTO_MODE false
-#define PRODUCTION_MODE false
+#define AUTO_MODE true
+#define PRODUCTION_MODE true
 #endif

@@ -78,3 +78,22 @@ void movePacman(TPacman *pacman, char old_dir, int map[MAP_HEIGHT_MAX][MAP_WIDTH
   }
   // printf("New Pacman position: (%d, %d)\n", newX, newY);
 }
+
+void updatePacmanTexture(TPacman *pacman,SDL_Renderer *renderer) {
+  switch (pacman->dir) {
+  case 'w': // Up
+    pacman->texture = loadTexture("src/pakuman/pakuman_1.bmp", renderer);
+    break;
+  case 's': // Down
+    pacman->texture = loadTexture("src/pakuman/pakuman_3.bmp", renderer);
+    break;
+  case 'a': // Left
+    pacman->texture = loadTexture("src/pakuman/pakuman_2.bmp", renderer);
+    break;
+  case 'd': // Right
+    pacman->texture = loadTexture("src/pakuman/pakuman_0.bmp", renderer);
+    break;
+  default:
+    break;
+  }
+}

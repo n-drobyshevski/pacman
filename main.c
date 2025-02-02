@@ -66,6 +66,7 @@ int main(int argc, char *argv[]) {
     movePacman(&game.pacman,old_dir, game.map); 
 
     RenderMap(&game);
+    updatePacmanTexture(&game.pacman, game.renderer);
     renderPacman(&game.pacman, game.renderer);
     SDL_RenderPresent(game.renderer);
 
