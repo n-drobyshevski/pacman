@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 TPacman initPacman(int x, int y, int vel, char dir, SDL_Renderer *renderer) {
   TPacman pacman;
   const char *texturePath = "src/pakuman/pakuman_0.bmp";
@@ -22,19 +21,15 @@ void renderPacman(const TPacman *pacman, SDL_Renderer *renderer) {
   if (pacman->texture) {
     renderTexture(pacman->texture, renderer, pacman->x, pacman->y, TILE_SIZE,
                   TILE_SIZE);
-    printf("Rendering Pacman at position (%d, %d)\n", pacman->x, pacman->y);
   } else {
     printf("Pacman texture is NULL\n");
   }
 }
 
-void movePacman(TPacman *pacman, int map[MAP_HEIGHT_MAX][MAP_WIDTH_MAX]) {
+void movePacman(TPacman *pacman, char old_dir, int map[MAP_HEIGHT_MAX][MAP_WIDTH_MAX]) {
   // Initialize newX and newY with current position
   int newX = pacman->x;
   int newY = pacman->y;
-
-  printf("Current Pacman position: (%d, %d), direction: %c, vel: %d\n", pacman->x,
-         pacman->y, pacman->dir, pacman->vel);
 
   switch (pacman->dir) {
   case 'w': // Up
@@ -61,23 +56,25 @@ void movePacman(TPacman *pacman, int map[MAP_HEIGHT_MAX][MAP_WIDTH_MAX]) {
   int tileBottomRight = getTileType(map, newX + 15, newY + 15);
 
   // Debug logs
-  printf("TileTopLeft = %d at (%d, %d)\n", tileTopLeft, newX, newY);
-  printf("TileTopRight = %d at (%d, %d)\n", tileTopRight, newX + 15, newY);
-  printf("TileBottomLeft = %d at (%d, %d)\n", tileBottomLeft, newX, newY + 15);
-  printf("TileBottomRight = %d at (%d, %d)\n", tileBottomRight, newX + 15,
-         newY + 15);
+  // printf("TileTopLeft = %d at (%d, %d)\n", tileTopLeft, newX, newY);
+  // printf("TileTopRight = %d at (%d, %d)\n", tileTopRight, newX + 15, newY);
+  // printf("TileBottomLeft = %d at (%d, %d)\n", tileBottomLeft, newX, newY + 15);
+  // printf("TileBottomRight = %d at (%d, %d)\n", tileBottomRight, newX + 15,newY + 15);
 
   if (tileTopLeft != 1 && tileTopRight != 1 && tileBottomLeft != 1 &&
       tileBottomRight != 1) {
     pacman->x = newX;
     pacman->y = newY;
   } else {
-    // Collision detected, change direction randomly
-    char directions[] = {'w', 'a', 's', 'd'};
-    int idx = rand() % 4;
-    pacman->dir = directions[idx];
-    printf("Collision detected. Changing direction randomly to %c\n",
-           pacman->dir);
+    if (AUTO_MODE) {
+      // Collision detected, change direction randomly
+      char directions[] = {'w', 'a', 's', 'd'};
+      int idx = rand() % 4;
+      pacman->dir = directions[idx];
+      // printf("Collision detected. Changing direction randomly to %c\n", pacman->dir);
+    }else{
+      pacman->dir = old_dir;
+      }
   }
-  printf("New Pacman position: (%d, %d)\n", newX, newY);
+  // printf("New Pacman position: (%d, %d)\n", newX, newY);
 }

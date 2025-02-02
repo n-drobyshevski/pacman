@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
   bool quit = false; // !CHANGE
   while (!quit) {
     SDL_Event event;
-
+    char old_dir = game.pacman.dir;
     while (SDL_PollEvent(&event)) {
       switch (event.type) {
       case SDL_QUIT:
@@ -34,20 +34,24 @@ int main(int argc, char *argv[]) {
         break;
       case SDL_KEYDOWN:
         switch (event.key.keysym.sym) {
-        case SDLK_ESCAPE: //!CHANGE sdlk
-          quit = true; //!change
+        case SDLK_ESCAPE:
+          quit = true;
           break;
         case SDLK_UP:
+        case SDLK_w:
           game.pacman.dir = 'w';
           break;
         case SDLK_DOWN:
+        case SDLK_s:
           game.pacman.dir = 's';
           break;
         case SDLK_LEFT:
-          game.pacman.dir = 'd';
+        case SDLK_a:
+          game.pacman.dir = 'a';
           break;
         case SDLK_RIGHT:
-          game.pacman.dir = 'a';
+        case SDLK_d:
+          game.pacman.dir = 'd';
           break;
         default:
           break;
@@ -59,7 +63,7 @@ int main(int argc, char *argv[]) {
 
     clearRenderer(game.renderer);
 
-    movePacman(&game.pacman, game.map); 
+    movePacman(&game.pacman,old_dir, game.map); 
 
     RenderMap(&game);
     renderPacman(&game.pacman, game.renderer);

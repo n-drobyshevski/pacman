@@ -9,8 +9,11 @@
 #define TILE_SIZE 16
 
 #define FONT_SRC "src/DejaVuSans-Bold.ttf"
-#define PRODUCTION_MODE false
 
 #define PACMAN_START_X TILE_SIZE * 9-1
 #define PACMAN_START_Y TILE_SIZE * 8-1
+
+
+#define AUTO_MODE false
+#define PRODUCTION_MODE false
 #endif
